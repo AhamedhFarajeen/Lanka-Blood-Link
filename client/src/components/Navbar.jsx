@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Droplets, Menu, X } from 'lucide-react';
+import { Droplet, Menu, X } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const availableLinks = [
@@ -7,7 +7,7 @@ const availableLinks = [
   { label: 'Dashboard', to: '/dashboard' },
 ];
 
-const upcomingLinks = ['Request Blood', 'Become a Donor', 'Donor Directory'];
+const upcomingLinks = ['Become a Donor', 'Donor Directory'];
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,9 +19,12 @@ function Navbar() {
       <nav className="navbar container" aria-label="Main navigation">
         <NavLink className="brand" to="/" onClick={closeMenu}>
           <span className="brand-mark" aria-hidden="true">
-            <Droplets size={24} />
+            <Droplet size={23} fill="currentColor" strokeWidth={1.8} />
           </span>
-          <span>Lanka Blood Link</span>
+          <span className="brand-copy">
+            <span className="brand-name">Lanka Blood Link</span>
+            <span className="brand-tagline">Community blood network</span>
+          </span>
         </NavLink>
 
         <button
@@ -51,9 +54,18 @@ function Navbar() {
           {upcomingLinks.map((label) => (
             <span className="nav-link nav-link-disabled" aria-disabled="true" key={label}>
               {label}
-              <span className="coming-soon">Soon</span>
             </span>
           ))}
+
+          <span
+            className="nav-request-action"
+            aria-disabled="true"
+            title="Request Blood is coming soon"
+          >
+            <Droplet size={17} aria-hidden="true" />
+            <span>Request Blood</span>
+            <span className="coming-soon">Soon</span>
+          </span>
         </div>
       </nav>
     </header>
