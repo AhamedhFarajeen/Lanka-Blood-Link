@@ -1,0 +1,248 @@
+/* Member 3 — styles for the matching results feature only.
+   Reuses the team's CSS variables (index.css) so it matches the design system.
+   Mobile-first: single column by default, multi-column on wider screens. */
+
+.matching-page {
+  padding-block: 28px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ---- Request summary strip ---- */
+.request-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.summary-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.summary-facts span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.summary-facts strong {
+  color: var(--ink);
+}
+
+/* ---- Blood group chip ---- */
+.blood-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.blood-chip.large {
+  font-size: 1rem;
+  padding: 6px 14px;
+}
+
+.blood-chip.muted {
+  background: #f1e7e9;
+  color: var(--muted);
+}
+
+/* ---- Urgency badge ---- */
+.urgency-badge {
+  margin-left: auto;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.urgency-critical { background: #fde2e4; color: #a01021; }
+.urgency-high     { background: #ffe8d6; color: #b4531a; }
+.urgency-medium   { background: #fff3cd; color: #8a6d1a; }
+.urgency-low      { background: #e2f0e5; color: #2f7a44; }
+
+/* ---- Section headings ---- */
+.matching-section { display: flex; flex-direction: column; gap: 14px; }
+
+.section-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.ranked-note {
+  margin: -6px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.empty-note { color: var(--muted); }
+
+/* ---- Match list ---- */
+.match-list { display: flex; flex-direction: column; gap: 16px; }
+
+.match-list-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.notified-count { color: #2f7a44; font-weight: 600; font-size: 0.9rem; }
+
+.match-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+/* ---- Match card ---- */
+.match-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.match-card.is-notified {
+  border-color: #b7e0c3;
+  background: #f4fbf6;
+}
+
+.match-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.match-donor h3 { margin: 0 0 6px; font-size: 1.05rem; }
+
+.match-meta { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+
+.match-district {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.match-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 66px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: var(--primary-soft);
+}
+
+.score-value { font-size: 1.35rem; font-weight: 800; color: var(--primary-dark); line-height: 1; }
+.score-label { font-size: 0.68rem; color: var(--muted); margin-top: 3px; text-align: center; }
+
+.match-reason { margin: 0; color: var(--ink); }
+
+.match-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.match-checks li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #2f7a44;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.match-card-foot { border-top: 1px solid var(--border); padding-top: 10px; }
+
+.match-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.notified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #2f7a44;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* ---- Excluded donors ---- */
+.excluded-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.excluded-card {
+  padding: 14px 16px;
+  border: 1px solid #f0d3d7;
+  border-radius: 12px;
+  background: #fdf6f7;
+}
+
+.excluded-head { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.excluded-head h3 { margin: 0; font-size: 1rem; color: var(--ink); }
+
+.exclusion-reason {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  color: #a01021;
+  font-size: 0.9rem;
+}
+
+/* ---- Disclaimer + retry ---- */
+.disclaimer {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.retry-row { display: flex; justify-content: center; margin-top: 14px; }
+
+/* ---- Wider screens: two columns for the card grids ---- */
+@media (min-width: 720px) {
+  .match-grid { grid-template-columns: repeat(2, 1fr); }
+  .excluded-grid { grid-template-columns: repeat(2, 1fr); }
+}

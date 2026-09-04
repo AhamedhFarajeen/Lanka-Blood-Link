@@ -39,6 +39,18 @@ function partitionDonors(donors, request) {
   return { safeCandidates, excluded };
 }
 
+// Shape the request summary for the API response, so the results page can show
+// the "who/what" strip without a second call to Member 2's requests API.
+function toRequestView(request) {
+  return {
+    bloodGroup: request.bloodGroup,
+    unitsRequired: request.unitsRequired,
+    district: request.district,
+    hospital: request.hospital,
+    urgency: request.urgency,
+  };
+}
+
 // Shape an excluded donor for the API response.
 function toExcludedView({ donor, reason }) {
   return {
@@ -69,6 +81,7 @@ async function findMatches(requestId) {
   if (safeCandidates.length === 0) {
     return {
       requestId,
+      request: toRequestView(request),
       rankedBy: 'rules',
       matches: [],
       excluded: excluded.map(toExcludedView),
@@ -109,6 +122,7 @@ async function findMatches(requestId) {
 
   return {
     requestId,
+    request: toRequestView(request),
     rankedBy,
     matches,
     excluded: excluded.map(toExcludedView),
@@ -119,6 +133,11 @@ async function findMatches(requestId) {
 async function getMatchesByRequest(requestId) {
   if (!mongoose.Types.ObjectId.isValid(requestId)) {
     throw httpError(400, 'Invalid request id.');
+  }
+
+  const request = await BloodRequest.findById(requestId);
+  if (!request) {
+    throw httpError(404, 'Blood request not found.');
   }
 
   const saved = await Match.find({ requestId })
@@ -138,7 +157,7 @@ async function getMatchesByRequest(requestId) {
       status: m.status,
     }));
 
-  return { requestId, matches };
+  return { requestId, request: toRequestView(request), matches };
 }
 
 export { findMatches, getMatchesByRequest, httpError };
