@@ -1,6 +1,6 @@
 import React from 'react';
-import BLOOD_GROUPS from '../../../../shared/constants/bloodTypes';
-import SRI_LANKAN_DISTRICTS from '../../../../shared/constants/districts';
+import BLOOD_GROUPS from '../../shared/constants/bloodTypes';
+import SRI_LANKAN_DISTRICTS from '../../shared/constants/districts';
 
 /**
  * DonorFilters Component

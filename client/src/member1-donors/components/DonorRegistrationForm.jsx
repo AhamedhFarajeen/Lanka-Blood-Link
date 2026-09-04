@@ -4,7 +4,7 @@ import {
   BLOOD_GROUPS, 
   SRI_LANKAN_DISTRICTS, 
   validateDonorData 
-} from '../../../../shared/validation/donorSchema';
+} from '../../shared/validation/donorSchema';
 
 /**
  * DonorRegistrationForm Component
