@@ -5,9 +5,10 @@ import { NavLink } from 'react-router-dom';
 const availableLinks = [
   { label: 'Home', to: '/', end: true },
   { label: 'Dashboard', to: '/dashboard' },
+  { label: 'Become a Donor', to: '/become-donor' },
+  { label: 'Donor Directory', to: '/donors' },
+  { label: 'Emergency', to: '/emergency-requests' },
 ];
-
-const upcomingLinks = ['Become a Donor', 'Donor Directory'];
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,21 +52,16 @@ function Navbar() {
             </NavLink>
           ))}
 
-          {upcomingLinks.map((label) => (
-            <span className="nav-link nav-link-disabled" aria-disabled="true" key={label}>
-              {label}
-            </span>
-          ))}
-
-          <span
-            className="nav-request-action"
-            aria-disabled="true"
-            title="Request Blood is coming soon"
+          <NavLink
+            to="/request-blood"
+            onClick={closeMenu}
+            className={({ isActive }) =>
+              isActive ? 'nav-request-action active' : 'nav-request-action'
+            }
           >
             <Droplet size={17} aria-hidden="true" />
             <span>Request Blood</span>
-            <span className="coming-soon">Soon</span>
-          </span>
+          </NavLink>
         </div>
       </nav>
     </header>
