@@ -1,6 +1,6 @@
 import { CalendarDays, RefreshCw } from 'lucide-react';
 
-function DashboardHeader() {
+function DashboardHeader({ isRefreshing = false, onRefresh, refreshDisabled = false }) {
   const today = new Date();
   const currentDate = new Intl.DateTimeFormat('en-LK', {
     day: 'numeric',
@@ -25,10 +25,16 @@ function DashboardHeader() {
           <button
             className="btn btn-secondary dashboard-refresh-button"
             type="button"
-            disabled
-            title="Refresh will be available when API integration is added"
+            onClick={onRefresh}
+            disabled={refreshDisabled || isRefreshing}
+            aria-label={isRefreshing ? 'Refreshing dashboard data' : 'Refresh dashboard data'}
+            aria-busy={isRefreshing}
           >
-            <RefreshCw size={17} aria-hidden="true" />
+            <RefreshCw
+              className={isRefreshing ? 'refresh-icon refresh-icon--active' : 'refresh-icon'}
+              size={17}
+              aria-hidden="true"
+            />
             Refresh
           </button>
         </div>

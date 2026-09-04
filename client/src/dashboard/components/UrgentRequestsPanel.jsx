@@ -15,8 +15,8 @@ function UrgentRequestsPanel({ requests }) {
       {requests.length === 0 ? (
         <div className="panel-empty-state">
           <Inbox size={28} aria-hidden="true" />
-          <h3>No urgent requests</h3>
-          <p>New priority requests will appear here when they are added.</p>
+          <h3>No active requests</h3>
+          <p>New active blood requests will appear here when they are added.</p>
         </div>
       ) : (
         <ul className="urgent-request-list">

@@ -14,7 +14,7 @@ function BloodAvailabilityGrid({ availability }) {
       {availability.length === 0 ? (
         <div className="panel-empty-state">
           <Inbox size={28} aria-hidden="true" />
-          <h3>No availability data</h3>
+          <h3>No available donors</h3>
           <p>Available donor totals will appear here when records are added.</p>
         </div>
       ) : (
