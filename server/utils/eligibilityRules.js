@@ -5,7 +5,7 @@
 // already approved. If the AI is down, the app still works because this file
 // (plus bloodCompatibility) is the real source of truth.
 
-const { isCompatible } = require('./bloodCompatibility');
+import { isCompatible } from './bloodCompatibility.js';
 
 // A donor must wait at least this many days after their last donation before
 // they can donate whole blood again (standard ~8-week interval).
@@ -69,7 +69,7 @@ function checkEligibility(donor, request) {
   return { eligible: true, reason: 'Compatible, eligible and available.' };
 }
 
-module.exports = {
+export {
   MIN_DONATION_GAP_DAYS,
   daysSinceLastDonation,
   isDonationIntervalSatisfied,

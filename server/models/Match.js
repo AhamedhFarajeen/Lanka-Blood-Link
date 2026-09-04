@@ -3,7 +3,7 @@
 // One Match document = "this donor was matched to this request, with this score
 // and reason". Created by the matching service (Phase 3) with status "Potential";
 // flipped to "Notified" when the requester notifies the donor (Phase 6).
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const matchSchema = new mongoose.Schema(
   {
@@ -41,4 +41,4 @@ const matchSchema = new mongoose.Schema(
   { timestamps: true } // adds createdAt / updatedAt
 );
 
-module.exports = mongoose.model('Match', matchSchema);
+export default mongoose.model('Match', matchSchema);

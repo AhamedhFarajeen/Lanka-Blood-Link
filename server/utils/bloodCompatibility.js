@@ -25,4 +25,4 @@ function isCompatible(recipientGroup, donorGroup) {
   return acceptableDonorGroups.includes(donorGroup);
 }
 
-module.exports = { COMPATIBILITY, isCompatible };
+export { COMPATIBILITY, isCompatible };
