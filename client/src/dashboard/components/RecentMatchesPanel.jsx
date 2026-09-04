@@ -9,7 +9,6 @@ function RecentMatchesPanel({ matches }) {
           <p className="section-kicker">Latest updates</p>
           <h2 id="matches-title">Recent matching activity</h2>
         </div>
-        <span className="panel-meta">Local mock data</span>
       </div>
 
       {matches.length === 0 ? (

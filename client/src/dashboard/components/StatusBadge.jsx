@@ -3,6 +3,7 @@ const statusClassNames = {
   high: 'status-badge--high',
   sent: 'status-badge--sent',
   delivered: 'status-badge--delivered',
+  failed: 'status-badge--failed',
   pending: 'status-badge--pending',
 };
 

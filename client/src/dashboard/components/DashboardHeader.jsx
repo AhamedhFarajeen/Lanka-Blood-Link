@@ -1,6 +1,11 @@
-import { CalendarDays, RefreshCw } from 'lucide-react';
+import { CalendarDays, Database, RefreshCw } from 'lucide-react';
 
-function DashboardHeader({ isRefreshing = false, onRefresh, refreshDisabled = false }) {
+function DashboardHeader({
+  isDemo = false,
+  isRefreshing = false,
+  onRefresh,
+  refreshDisabled = false,
+}) {
   const today = new Date();
   const currentDate = new Intl.DateTimeFormat('en-LK', {
     day: 'numeric',
@@ -12,7 +17,15 @@ function DashboardHeader({ isRefreshing = false, onRefresh, refreshDisabled = fa
     <header className="dashboard-header">
       <div className="container dashboard-header-layout">
         <div className="dashboard-heading">
-          <span className="dashboard-kicker">Overview</span>
+          <div className="dashboard-kicker-row">
+            <span className="dashboard-kicker">Overview</span>
+            {isDemo ? (
+              <span className="badge badge-warning dashboard-demo-badge">
+                <Database size={13} aria-hidden="true" />
+                Demo data
+              </span>
+            ) : null}
+          </div>
           <h1>Blood Donation Dashboard</h1>
           <p>Monitor the latest donor, request, availability, and matching activity.</p>
         </div>

@@ -12,6 +12,7 @@ function DashboardView({
   announcement,
   data,
   error,
+  isDemo,
   isLoading,
   isRefreshing,
   onRefresh,
@@ -20,6 +21,7 @@ function DashboardView({
   return (
     <div className="dashboard-page">
       <DashboardHeader
+        isDemo={isDemo}
         isRefreshing={isRefreshing}
         onRefresh={onRefresh}
         refreshDisabled={isLoading && !data}

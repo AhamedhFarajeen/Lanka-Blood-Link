@@ -1,53 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  bloodAvailability,
-  dashboardStats,
-  quickActions,
-  recentMatches,
-  urgentRequests,
-} from '../mocks/dashboardMockData.js';
+  getDashboardSummary,
+  isDashboardMockMode,
+} from '../services/dashboardApi.js';
 
 const FRIENDLY_ERROR_MESSAGE =
   'We could not load the dashboard right now. Please try again in a moment.';
 
-function wait(duration) {
-  return new Promise((resolve) => {
-    globalThis.setTimeout(resolve, duration);
-  });
-}
-
-function cloneItems(items) {
-  return items.map((item) => ({ ...item }));
-}
-
-function createDashboardSnapshot(scenario) {
-  const isEmpty = scenario === 'empty';
-
-  return {
-    stats: cloneItems(dashboardStats),
-    quickActions: cloneItems(quickActions),
-    urgentRequests: isEmpty ? [] : cloneItems(urgentRequests),
-    bloodAvailability: isEmpty ? [] : cloneItems(bloodAvailability),
-    recentMatches: isEmpty ? [] : cloneItems(recentMatches),
-    refreshedAt: new Date().toISOString(),
-  };
-}
-
-function createMockDashboardLoader({ delay = 650, scenario = 'normal' } = {}) {
-  return async function loadMockDashboardData() {
-    await wait(delay);
-
-    if (scenario === 'error') {
-      throw new Error('Mock dashboard load failed.');
-    }
-
-    return createDashboardSnapshot(scenario);
-  };
-}
-
-const loadMockDashboardData = createMockDashboardLoader();
-
-function useDashboardData(loader = loadMockDashboardData) {
+function useDashboardData(loader = getDashboardSummary) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -56,6 +16,7 @@ function useDashboardData(loader = loadMockDashboardData) {
   const dataRef = useRef(null);
   const isMountedRef = useRef(false);
   const requestInFlightRef = useRef(false);
+  const activeControllerRef = useRef(null);
 
   const loadDashboard = useCallback(
     async ({ background = false } = {}) => {
@@ -65,6 +26,8 @@ function useDashboardData(loader = loadMockDashboardData) {
 
       requestInFlightRef.current = true;
       const preserveCurrentData = background && dataRef.current !== null;
+      const controller = new AbortController();
+      activeControllerRef.current = controller;
 
       setError(null);
 
@@ -77,9 +40,9 @@ function useDashboardData(loader = loadMockDashboardData) {
       }
 
       try {
-        const nextData = await loader();
+        const nextData = await loader({ signal: controller.signal });
 
-        if (!isMountedRef.current) {
+        if (!isMountedRef.current || activeControllerRef.current !== controller) {
           return false;
         }
 
@@ -87,8 +50,12 @@ function useDashboardData(loader = loadMockDashboardData) {
         setData(nextData);
         setAnnouncement(preserveCurrentData ? 'Dashboard refreshed.' : 'Dashboard loaded.');
         return true;
-      } catch {
-        if (!isMountedRef.current) {
+      } catch (requestError) {
+        if (
+          requestError?.name === 'AbortError' ||
+          !isMountedRef.current ||
+          activeControllerRef.current !== controller
+        ) {
           return false;
         }
 
@@ -96,11 +63,14 @@ function useDashboardData(loader = loadMockDashboardData) {
         setAnnouncement('Dashboard data could not be loaded.');
         return false;
       } finally {
-        requestInFlightRef.current = false;
+        if (activeControllerRef.current === controller) {
+          activeControllerRef.current = null;
+          requestInFlightRef.current = false;
 
-        if (isMountedRef.current) {
-          setIsLoading(false);
-          setIsRefreshing(false);
+          if (isMountedRef.current) {
+            setIsLoading(false);
+            setIsRefreshing(false);
+          }
         }
       }
     },
@@ -113,6 +83,9 @@ function useDashboardData(loader = loadMockDashboardData) {
 
     return () => {
       isMountedRef.current = false;
+      activeControllerRef.current?.abort();
+      activeControllerRef.current = null;
+      requestInFlightRef.current = false;
     };
   }, [loadDashboard]);
 
@@ -130,6 +103,7 @@ function useDashboardData(loader = loadMockDashboardData) {
     announcement,
     data,
     error,
+    isDemo: data?.isDemo ?? isDashboardMockMode,
     isLoading,
     isRefreshing,
     refresh,
@@ -137,5 +111,4 @@ function useDashboardData(loader = loadMockDashboardData) {
   };
 }
 
-export { createMockDashboardLoader, loadMockDashboardData };
 export default useDashboardData;
