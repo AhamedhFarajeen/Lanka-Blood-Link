@@ -4,6 +4,7 @@
 // errors go to the team's errorHandler via next(err), which formats them as
 // { success: false, message }.
 import { findMatches, getMatchesByRequest, httpError } from '../services/matchingService.js';
+import { notifyDonors } from '../services/notificationService.js';
 
 // POST /api/matching/find   body: { requestId }
 async function findMatchesHandler(req, res, next) {
@@ -31,10 +32,19 @@ async function getMatchesHandler(req, res, next) {
   }
 }
 
-// POST /api/matching/notify  -> implemented in Phase 6.
+// POST /api/matching/notify   body: { requestId, matchIds: [] }
 async function notifyDonorsHandler(req, res, next) {
   try {
-    throw httpError(501, 'Notification is not implemented yet (Phase 6).');
+    const { requestId, matchIds } = req.body || {};
+    if (!requestId) {
+      throw httpError(400, 'requestId is required.');
+    }
+    if (!Array.isArray(matchIds) || matchIds.length === 0) {
+      throw httpError(400, 'matchIds must be a non-empty array.');
+    }
+
+    const result = await notifyDonors(requestId, matchIds);
+    res.status(200).json({ success: true, ...result });
   } catch (error) {
     next(error);
   }
