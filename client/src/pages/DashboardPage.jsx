@@ -1,32 +1,31 @@
-import { LayoutDashboard, PanelsTopLeft } from 'lucide-react';
+import BloodAvailabilityGrid from '../dashboard/components/BloodAvailabilityGrid.jsx';
+import DashboardHeader from '../dashboard/components/DashboardHeader.jsx';
+import DashboardStats from '../dashboard/components/DashboardStats.jsx';
+import QuickActions from '../dashboard/components/QuickActions.jsx';
+import RecentMatchesPanel from '../dashboard/components/RecentMatchesPanel.jsx';
+import UrgentRequestsPanel from '../dashboard/components/UrgentRequestsPanel.jsx';
+import {
+  bloodAvailability,
+  dashboardStats,
+  quickActions,
+  recentMatches,
+  urgentRequests,
+} from '../dashboard/mocks/dashboardMockData.js';
 
 function DashboardPage() {
   return (
     <div className="dashboard-page">
-      <header className="dashboard-header">
-        <div className="container dashboard-header-content">
-          <span className="badge badge-neutral">
-            <LayoutDashboard size={15} aria-hidden="true" />
-            Dashboard workspace
-          </span>
-          <h1>Dashboard</h1>
-          <p>
-            A central workspace for Lanka Blood Link. Dashboard components will be added in
-            the next phase.
-          </p>
-        </div>
-      </header>
+      <DashboardHeader />
 
       <div className="container dashboard-main" aria-label="Dashboard content">
-        <section className="card dashboard-canvas" aria-labelledby="dashboard-empty-title">
-          <div className="dashboard-empty-state">
-            <span className="dashboard-empty-icon" aria-hidden="true">
-              <PanelsTopLeft size={28} />
-            </span>
-            <h2 id="dashboard-empty-title">Dashboard space ready</h2>
-            <p>Upcoming dashboard components will be placed in this content area.</p>
-          </div>
-        </section>
+        <DashboardStats stats={dashboardStats} />
+        <QuickActions actions={quickActions} />
+
+        <div className="dashboard-content-grid">
+          <UrgentRequestsPanel requests={urgentRequests} />
+          <BloodAvailabilityGrid availability={bloodAvailability} />
+          <RecentMatchesPanel matches={recentMatches} />
+        </div>
       </div>
     </div>
   );
